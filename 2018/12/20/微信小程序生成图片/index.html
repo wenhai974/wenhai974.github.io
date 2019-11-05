@@ -1,0 +1,398 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+  
+    <title>微信小程序生成图片 | A little koi</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=3, minimum-scale=1">
+    
+    <meta name="author" content="Koi">
+    
+    <meta name="description" content="微信小程序生成图片和图片保存生成图片这个功能需要使用 Canvas ，先将要保存的图片使用 Canvas 画出来，然后调用相关方法保存到手机上。文中使用或是未使用的有关小程序中 Canvas 的 api 可以在 小程序Canvas相关Api 这里查看。
+为了使用方便，我将这个需求的实现做成了一个组件，便于项目的其他地方复用，也遇到了一些因为使用自定义组件带来的问题">
+    
+    
+    
+    
+    
+    <link rel="icon" href="/img/favicon-01.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/avatar.png">
+    <link rel="apple-touch-icon-precomposed" href="/img/avatar.png">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+</html>
+  <body>
+    <header>
+      <div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/avatar.png" alt="A little koi" title="A little koi"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="A little koi">A little koi</a></h1>
+				<h2 class="blog-motto">嘿！是充满激情的你啊</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					
+						<li><a href="/">首页</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+						<li><a href="/categories">分类</a></li>
+					
+					<li>
+					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="text" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:wenhai974.github.io">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2018/12/20/微信小程序生成图片/" title="微信小程序生成图片" itemprop="url">微信小程序生成图片</a>
+  </h1>
+  <p class="article-author">By
+    
+      <a href="https://wenhai974.github.io" title="Koi">Koi</a>
+    </p>
+  <p class="article-time">
+    <time datetime="2018-12-19T16:00:00.000Z" itemprop="datePublished">2018-12-20</time>
+    更新日期:<time datetime="2019-11-05T13:59:41.367Z" itemprop="dateModified">2019-11-05</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#微信小程序生成图片和图片保存"><span class="toc-number">1.</span> <span class="toc-text">微信小程序生成图片和图片保存</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#要实现的效果图"><span class="toc-number">1.1.</span> <span class="toc-text">要实现的效果图</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#实现思路"><span class="toc-number">1.2.</span> <span class="toc-text">实现思路</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#代码中的几个方法"><span class="toc-number">1.2.1.</span> <span class="toc-text">代码中的几个方法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#数据初始化"><span class="toc-number">1.2.2.</span> <span class="toc-text">数据初始化</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#画图"><span class="toc-number">1.2.3.</span> <span class="toc-text">画图</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#保存图片"><span class="toc-number">1.2.4.</span> <span class="toc-text">保存图片</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#遇到的问题"><span class="toc-number">1.3.</span> <span class="toc-text">遇到的问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#结语"><span class="toc-number">1.4.</span> <span class="toc-text">结语</span></a></li></ol></li></ol>
+		</div>
+		
+		<h2 id="微信小程序生成图片和图片保存"><a href="#微信小程序生成图片和图片保存" class="headerlink" title="微信小程序生成图片和图片保存"></a>微信小程序生成图片和图片保存</h2><p>生成图片这个功能需要使用 Canvas ，先将要保存的图片使用 Canvas 画出来，然后调用相关方法保存到手机上。文中使用或是未使用的有关小程序中 Canvas 的 api 可以在 <a href="https://developers.weixin.qq.com/miniprogram/dev/api/wx.createCanvasContext.html" target="_blank" rel="noopener">小程序Canvas相关Api</a> 这里查看。</p>
+<p>为了使用方便，我将这个需求的实现做成了一个组件，便于项目的其他地方复用，也遇到了一些因为使用自定义组件带来的问题</p>
+<a id="more"></a>
+
+<h3 id="要实现的效果图"><a href="#要实现的效果图" class="headerlink" title="要实现的效果图"></a>要实现的效果图</h3><p><img src="http://qny.lovem.fun/blog/20191008/ASV0SSsUENPc.png" alt="mark"></p>
+<h3 id="实现思路"><a href="#实现思路" class="headerlink" title="实现思路"></a>实现思路</h3><p>相关的代码比较长，而且大部分为调用 Canvas 的 api 代码，整体贴出无必要。本文中只描述思路，具体代码看 <a href="https://developers.weixin.qq.com/s/XQUmIXmJ7ab9" target="_blank" rel="noopener">小程序生成图片的微信代码片段</a> 。</p>
+<h4 id="代码中的几个方法"><a href="#代码中的几个方法" class="headerlink" title="代码中的几个方法"></a>代码中的几个方法</h4><ol>
+<li><code>drawRoundedRect</code> ：用来绘制圆角矩形，此处不详述它的画图原理</li>
+<li><code>point</code> ：为方法 1 服务的，一看就懂</li>
+<li><code>downFile</code> ：对微信的下载方法进行了一层简单封装，传入 url ，返回一个 Promise</li>
+<li><code>save</code> ： 保存图片的相关逻辑</li>
+<li><code>doAuth</code> ：当调用 <code>wx.saveImageToPhotosAlbum</code> 方法保存图片时，如果没有保存图片的权限会保存失败，此时需要让用户重新授权</li>
+<li><code>computedPercent</code> ：一个快捷的计算比例的方法，传入从设计图上量出来的像素数即可， <code>oldWidth</code> 是设计图上的 Canvas 区域宽度</li>
+<li><code>initData</code> ：数据初始化，获取设备相关信息，将网络图下载到本地</li>
+<li><code>writeCanvas</code> ： 主要画图逻辑，调用此方法时保证所需数据已处理完毕，开始画图</li>
+</ol>
+<h4 id="数据初始化"><a href="#数据初始化" class="headerlink" title="数据初始化"></a>数据初始化</h4><p>需求中需要显示用户头像和小程序码，小程序码后面是要挂参数的，可以简单理解为要挂个用户参数在后面，类似这样 <code>?uid=2233</code> ，这就是组件中要传入的 scene 的值，然后根据这个参数，在开始画图之前，先调用接口从服务端那里获取图片的链接，再利用微信的 <code>wx.downloadFile</code> 方法将图片下载到本地，在 Canvas 中使用本地路径，用户头像和小程序码都下载好了之后就可以开始画图了，否则的话，提示网络错误。</p>
+<p>为了演示方便，本文中的网络图都换成了本地图片</p>
+<h4 id="画图"><a href="#画图" class="headerlink" title="画图"></a>画图</h4><p>由于是在组件中，所以获取 Canvas 上下文的时候要传入 <code>this</code> ，根据设计图，从里向外依次往 Canvas 上叠加就是了，从设计图上量出的像素调用方法来获取比例，画完之后调用 Canvas 的 <code>draw</code> 方法技术绘画，并且将 loading 状态取消</p>
+<h4 id="保存图片"><a href="#保存图片" class="headerlink" title="保存图片"></a>保存图片</h4><p>保存图片的时候，要注意保存的图片的宽高都乘一下设备的像素比，防止出来的图片太小了，保存图片需要相关权限，若用户为授权，要弹窗让他授权之后再进行保存操作</p>
+<h3 id="遇到的问题"><a href="#遇到的问题" class="headerlink" title="遇到的问题"></a>遇到的问题</h3><p>以下部分问题有时效性，请大家理性看待。</p>
+<ol>
+<li>canvas 结束绘画要调用 <code>ctx.draw()</code> 方法，不调用的话是什么都不会显示的</li>
+<li><code>wx.createCanvasContext(string canvasId, Object this)</code> ，在自定义组件下，当前组件实例的 <code>this</code> ，表示在这个自定义组件下查找拥有 <code>canvas-id</code> 的 <code>&lt;canvas&gt;</code> ，如果省略则不在任何自定义组件内查找。简而言之就是在页面级调用这个方法的时候，第二个参数可以不传，会默认传入 this ；但是在自定义组件中调用这个方法的话，要传入 this</li>
+<li>部分手机上保存的图片分辨率太小，导致图片上的字看不清。最后使用了一个百分比的计算，所有的的坐标或者大小都是根据屏幕宽高和设计图宽高比例计算出来了，这样可以保证即使在不同手机上或者在不同的容器中，都是有恰当比例的；并且保存图片的时候，要注意保存的图片的宽高都乘一下设备的像素比</li>
+<li>Canvas 中不能放网络图，所以网络图需要先下载到本地之后在使用</li>
+<li>如果用到了下载网络图片的话，别忘记设置微信的 <code>downloadFile</code> 合法域名</li>
+</ol>
+<h3 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h3><p>对于大部分同学来说，自己项目的需求和我这里实现的可能是有些出入的，所以本文只是起到一个例子的作用，可以帮助你快速上手这个模块的开发</p>
+  
+	</div>
+	<div class="posts-footer-cont">
+    <img src="/img/wxZan.jpg" width="200" height="200" style="display:block;margin: 0 auto;">
+    <p style="text-align: center;margin-top: 10px;margin-bottom: 20px; color: #817c7c;">码字不易，本文若能帮到你，那我想要实现一个小小的愿望^_^</p>
+    <div class="author-right">
+  		<p>作者：Koi</p>
+  		<p>出处：<a href="https://wenhai974.github.io" target="_blank" title="Koi">https://wenhai974.github.io</a></p>
+  		<p>本文版权归作者所有，欢迎转载，但未经作者同意必须保留此段声明，且在文章页面明显位置给出原文连接，否则保留追究法律责任的权利。</p>
+    </div>
+	</div>
+			<footer class="article-footer clearfix">
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/小程序/">小程序</a>
+  </div>
+
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/JS/">JS</a>
+</div>
+
+
+
+<div class="article-share" id="share">
+
+  <div data-url="https://wenhai974.github.io/2018/12/20/微信小程序生成图片/" data-title="微信小程序生成图片 | A little koi" data-tsina="" class="share clearfix">
+  </div>
+
+</div>
+</footer>   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2019/03/20/安卓与 JS 交互要注意的问题/" title="安卓与JS交互需要注意的问题">
+  <strong>PREVIOUS:</strong><br/>
+  <span>
+  安卓与JS交互需要注意的问题</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2018/11/22/微信小程序中的 onLaunch 和 onLoad 异步加载/"  title="微信小程序中的onLaunch和onLoad异步加载问题">
+ <strong>NEXT:</strong><br/> 
+ <span>微信小程序中的onLaunch和onLoad异步加载问题
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#微信小程序生成图片和图片保存"><span class="toc-number">1.</span> <span class="toc-text">微信小程序生成图片和图片保存</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#要实现的效果图"><span class="toc-number">1.1.</span> <span class="toc-text">要实现的效果图</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#实现思路"><span class="toc-number">1.2.</span> <span class="toc-text">实现思路</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#代码中的几个方法"><span class="toc-number">1.2.1.</span> <span class="toc-text">代码中的几个方法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#数据初始化"><span class="toc-number">1.2.2.</span> <span class="toc-text">数据初始化</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#画图"><span class="toc-number">1.2.3.</span> <span class="toc-text">画图</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#保存图片"><span class="toc-number">1.2.4.</span> <span class="toc-text">保存图片</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#遇到的问题"><span class="toc-number">1.3.</span> <span class="toc-text">遇到的问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#结语"><span class="toc-number">1.4.</span> <span class="toc-text">结语</span></a></li></ol></li></ol>
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+  <div class="archiveslist">
+    <p class="asidetitle"><a href="/archives">归档</a></p>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">九月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">八月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">七月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">五月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">三月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">十二月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">十一月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">十月 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">七月 2018</a><span class="archive-list-count">2</span></li></ul>
+  </div>
+
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+			<li><a href="/categories/CSS/" title="CSS">CSS<sup>1</sup></a></li>
+		
+			<li><a href="/categories/JS/" title="JS">JS<sup>8</sup></a></li>
+		
+			<li><a href="/categories/VUE/" title="VUE">VUE<sup>5</sup></a></li>
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			<li><a href="/tags/CSS/" title="CSS">CSS<sup>1</sup></a></li>
+		
+			<li><a href="/tags/ES6/" title="ES6">ES6<sup>1</sup></a></li>
+		
+			<li><a href="/tags/pdf-js/" title="pdf.js">pdf.js<sup>1</sup></a></li>
+		
+			<li><a href="/tags/vue-cli/" title="vue-cli">vue-cli<sup>1</sup></a></li>
+		
+			<li><a href="/tags/webpack/" title="webpack">webpack<sup>1</sup></a></li>
+		
+			<li><a href="/tags/多语言/" title="多语言">多语言<sup>1</sup></a></li>
+		
+			<li><a href="/tags/小程序/" title="小程序">小程序<sup>3</sup></a></li>
+		
+			<li><a href="/tags/工具函数/" title="工具函数">工具函数<sup>1</sup></a></li>
+		
+			<li><a href="/tags/微信公众号/" title="微信公众号">微信公众号<sup>3</sup></a></li>
+		
+			<li><a href="/tags/构造函数/" title="构造函数">构造函数<sup>1</sup></a></li>
+		
+			<li><a href="/tags/混合开发/" title="混合开发">混合开发<sup>1</sup></a></li>
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+      <li><a>weChat：wenhai974</a></li>
+      <li><a href="mailto:wenhai974@163.com">Email：wenhai974@163.com</a></li>
+      <li><a href="http://code-fe.lovem.fun/" target="_blank">前端资源共享</a></li>
+      <li><a href="https://github.com/wenhai974" target="_blank" title="https://github.com/wenhai974">https://github.com/wenhai974</a></li>
+    </ul>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	<div class="footer-slogan">勇士之魂，从未破灭！</div>
+	
+	
+	<div class="social-font clearfix">
+		
+		<a href="http://weibo.com/5589786100" target="_blank" title="weibo"></a>
+		
+		
+		
+		<a href="https://github.com/wenhai974" target="_blank" title="github"></a>
+		
+		
+		
+	</div>
+		<p class="copyright">Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/A-limon/pacman" target="_blank" title="Pacman">Pacman</a> © 2019 
+		
+		<a href="https://wenhai974.github.io" target="_blank" title="Koi">Koi</a>
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.1.0.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else
+    {
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      h  = $('article h2')
+      ah = $('article h2'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  if(ah.length==0){
+    t.css('display','none');
+  }else{
+    c.click(function(){
+      ta.css('display', 'block').addClass('fadeIn');
+    });
+    o.click(function(){
+      ta.css('display', 'none');
+    });
+    $(window).scroll(function(){
+      ta.css("top",Math.max(140,320-$(this).scrollTop()));
+    });
+  };
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina');
+  var html = [
+  '<a href="#" class="overlay" id="qrcode"></a>',
+  '<div class="qrcode clearfix"><span>扫描二维码分享到微信朋友圈</span><a class="qrclose" href="#share"></a><strong>Loading...Please wait</strong><img id="qrcode-pic" data-src="http://s.jiathis.com/qrcode.php?url=' + encodedUrl + '"/></div>',
+  '<a href="#textlogo" class="article-back-to-top" title="Top"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="QRcode"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="Weibo"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+  $('.article-share-qrcode').click(function(){
+    var imgSrc = $('#qrcode-pic').attr('data-src');
+    $('#qrcode-pic').attr('src', imgSrc);
+    $('#qrcode-pic').load(function(){
+        $('.qrcode strong').text(' ');
+    });
+  });
+});     
+</script>
+
+
+
+
+
+
+  </body>
+</html>

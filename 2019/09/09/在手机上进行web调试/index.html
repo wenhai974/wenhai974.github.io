@@ -1,0 +1,383 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+  
+    <title>在手机上进行web调试 | A little koi</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=3, minimum-scale=1">
+    
+    <meta name="author" content="Koi">
+    
+    <meta name="description" content="在手机上进行 web 调试巴拉巴拉
+安卓手机环境： windows， Android， wifi
+工具： fiddler  
+Fiddler 是一个使用 C# 编写的 http 抓包工具。它使用灵活，功能强大，支持众多的 http 调试任务，是 web、移动应用的开发调试利器。fiddler 的功能很多很强大，在这里我们只使用它的代理功能。">
+    
+    
+    
+    
+    
+    <link rel="icon" href="/img/favicon-01.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/avatar.png">
+    <link rel="apple-touch-icon-precomposed" href="/img/avatar.png">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+</html>
+  <body>
+    <header>
+      <div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/avatar.png" alt="A little koi" title="A little koi"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="A little koi">A little koi</a></h1>
+				<h2 class="blog-motto">嘿！是充满激情的你啊</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					
+						<li><a href="/">首页</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+						<li><a href="/categories">分类</a></li>
+					
+					<li>
+					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="text" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:wenhai974.github.io">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2019/09/09/在手机上进行web调试/" title="在手机上进行web调试" itemprop="url">在手机上进行web调试</a>
+  </h1>
+  <p class="article-author">By
+    
+      <a href="https://wenhai974.github.io" title="Koi">Koi</a>
+    </p>
+  <p class="article-time">
+    <time datetime="2019-09-08T16:00:00.000Z" itemprop="datePublished">2019-09-09</time>
+    更新日期:<time datetime="2019-11-05T14:04:28.835Z" itemprop="dateModified">2019-11-05</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#在手机上进行-web-调试"><span class="toc-number">1.</span> <span class="toc-text">在手机上进行 web 调试</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#安卓手机"><span class="toc-number">1.1.</span> <span class="toc-text">安卓手机</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#允许远程访问"><span class="toc-number">1.1.1.</span> <span class="toc-text">允许远程访问</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#设置代理"><span class="toc-number">1.1.2.</span> <span class="toc-text">设置代理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#手机"><span class="toc-number">1.1.3.</span> <span class="toc-text">手机</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#访问"><span class="toc-number">1.1.4.</span> <span class="toc-text">访问</span></a></li></ol></li></ol></li></ol>
+		</div>
+		
+		<h1 id="在手机上进行-web-调试"><a href="#在手机上进行-web-调试" class="headerlink" title="在手机上进行 web 调试"></a>在手机上进行 web 调试</h1><p>巴拉巴拉</p>
+<h2 id="安卓手机"><a href="#安卓手机" class="headerlink" title="安卓手机"></a>安卓手机</h2><p>环境： windows， Android， wifi</p>
+<p>工具： <a href="https://www.telerik.com/fiddler" target="_blank" rel="noopener">fiddler</a>  </p>
+<p><strong>Fiddler</strong> 是一个使用 <strong>C#</strong> 编写的 <strong>http</strong> 抓包工具。它使用灵活，功能强大，支持众多的 <strong>http</strong> 调试任务，是 <strong>web</strong>、移动应用的开发调试利器。fiddler 的功能很多很强大，在这里我们只使用它的代理功能。</p>
+<a id="more"></a>
+
+<p>调试需要手机和电脑在同一网络环境下，所以最好是连同一个 WiFi ，其他的方式我未探索过，感兴趣的同学可以自己试一试，以下步骤是默认前提： </p>
+<ol>
+<li>电脑可以连 WiFi ， 手机可以连 WiFi ，并且连接同一 WiFi</li>
+</ol>
+<h3 id="允许远程访问"><a href="#允许远程访问" class="headerlink" title="允许远程访问"></a>允许远程访问</h3><p>选择菜单栏中的 Tools ，在下拉菜单中点击 Options ，进行如下设置，另外可以将 HTTPS 中的抓取 https 请求的复选框也勾选上</p>
+<p><img src="http://qny.lovem.fun/blog/20190527/RnLkDthgSOPJ.png" alt="mark"> </p>
+<p><img src="http://qny.lovem.fun/blog/20190527/ucqBL2T4Rul1.png" alt="mark"></p>
+<h3 id="设置代理"><a href="#设置代理" class="headerlink" title="设置代理"></a>设置代理</h3><p>选择 Tools 中的 HOSTS 选项，进行代理的相关配置，此处的目的大致相当于：监听手机的请求，如果有请求 <code>xxx.com</code> 的，将其代理到本地的 <code>8080</code> 端口，此处配置可自己根据项目需要灵活设置 </p>
+<p><img src="http://qny.lovem.fun/blog/20190527/OYc1Ug8l91Ko.png" alt="mark"></p>
+<h3 id="手机"><a href="#手机" class="headerlink" title="手机"></a>手机</h3><p>首先查看电脑的 ip 地址，这个可以在 fiddler 右上角左右的位置找到一个 Online 的字样 ，鼠标悬浮在上面即可看到一个内网的 IP 地址（类似 192.168…），如果没有的话，就重新连接一下 WiFi </p>
+<p><img src="http://qny.lovem.fun/blog/20190527/svoE5TDkhuk9.png" alt="mark"></p>
+<p>手机连接的 WiFi 可以进行代理的设置，大部分的安卓手机都是可以的，按照之前的配置在手机上进行相应的设置，服务器的 ip 地址就是上面在 fiddler 上看到的 ip 地址，端口是第一步中设置的</p>
+<p><img src="http://qny.lovem.fun/blog/20190527/DwpDlDplVzFf.png" alt="mark"></p>
+<h3 id="访问"><a href="#访问" class="headerlink" title="访问"></a>访问</h3><p>现在打开手机浏览器，在浏览器地址栏中输入 <code>xxx.com</code> ，如果电脑上的 <code>8080</code> 端口有项目在运行着，在手机上就可以直接预览到效果啦，改代码后，刷新页面，手机上的页面效果也会改变。</p>
+  
+	</div>
+	<div class="posts-footer-cont">
+    <img src="/img/wxZan.jpg" width="200" height="200" style="display:block;margin: 0 auto;">
+    <p style="text-align: center;margin-top: 10px;margin-bottom: 20px; color: #817c7c;">码字不易，本文若能帮到你，那我想要实现一个小小的愿望^_^</p>
+    <div class="author-right">
+  		<p>作者：Koi</p>
+  		<p>出处：<a href="https://wenhai974.github.io" target="_blank" title="Koi">https://wenhai974.github.io</a></p>
+  		<p>本文版权归作者所有，欢迎转载，但未经作者同意必须保留此段声明，且在文章页面明显位置给出原文连接，否则保留追究法律责任的权利。</p>
+    </div>
+	</div>
+			<footer class="article-footer clearfix">
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/微信公众号/">微信公众号</a>
+  </div>
+
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/JS/">JS</a>
+</div>
+
+
+
+<div class="article-share" id="share">
+
+  <div data-url="https://wenhai974.github.io/2019/09/09/在手机上进行web调试/" data-title="在手机上进行web调试 | A little koi" data-tsina="" class="share clearfix">
+  </div>
+
+</div>
+</footer>   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+
+<div class="next">
+<a href="/2019/08/12/webpack相关问题记录/"  title="webpack相关问题记录">
+ <strong>NEXT:</strong><br/> 
+ <span>webpack相关问题记录
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+  <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#在手机上进行-web-调试"><span class="toc-number">1.</span> <span class="toc-text">在手机上进行 web 调试</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#安卓手机"><span class="toc-number">1.1.</span> <span class="toc-text">安卓手机</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#允许远程访问"><span class="toc-number">1.1.1.</span> <span class="toc-text">允许远程访问</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#设置代理"><span class="toc-number">1.1.2.</span> <span class="toc-text">设置代理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#手机"><span class="toc-number">1.1.3.</span> <span class="toc-text">手机</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#访问"><span class="toc-number">1.1.4.</span> <span class="toc-text">访问</span></a></li></ol></li></ol></li></ol>
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+  <div class="archiveslist">
+    <p class="asidetitle"><a href="/archives">归档</a></p>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">九月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">八月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">七月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">五月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">三月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">十二月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">十一月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">十月 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">七月 2018</a><span class="archive-list-count">2</span></li></ul>
+  </div>
+
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+			<li><a href="/categories/CSS/" title="CSS">CSS<sup>1</sup></a></li>
+		
+			<li><a href="/categories/JS/" title="JS">JS<sup>8</sup></a></li>
+		
+			<li><a href="/categories/VUE/" title="VUE">VUE<sup>5</sup></a></li>
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			<li><a href="/tags/CSS/" title="CSS">CSS<sup>1</sup></a></li>
+		
+			<li><a href="/tags/ES6/" title="ES6">ES6<sup>1</sup></a></li>
+		
+			<li><a href="/tags/pdf-js/" title="pdf.js">pdf.js<sup>1</sup></a></li>
+		
+			<li><a href="/tags/vue-cli/" title="vue-cli">vue-cli<sup>1</sup></a></li>
+		
+			<li><a href="/tags/webpack/" title="webpack">webpack<sup>1</sup></a></li>
+		
+			<li><a href="/tags/多语言/" title="多语言">多语言<sup>1</sup></a></li>
+		
+			<li><a href="/tags/小程序/" title="小程序">小程序<sup>3</sup></a></li>
+		
+			<li><a href="/tags/工具函数/" title="工具函数">工具函数<sup>1</sup></a></li>
+		
+			<li><a href="/tags/微信公众号/" title="微信公众号">微信公众号<sup>3</sup></a></li>
+		
+			<li><a href="/tags/构造函数/" title="构造函数">构造函数<sup>1</sup></a></li>
+		
+			<li><a href="/tags/混合开发/" title="混合开发">混合开发<sup>1</sup></a></li>
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+      <li><a>weChat：wenhai974</a></li>
+      <li><a href="mailto:wenhai974@163.com">Email：wenhai974@163.com</a></li>
+      <li><a href="http://code-fe.lovem.fun/" target="_blank">前端资源共享</a></li>
+      <li><a href="https://github.com/wenhai974" target="_blank" title="https://github.com/wenhai974">https://github.com/wenhai974</a></li>
+    </ul>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	<div class="footer-slogan">勇士之魂，从未破灭！</div>
+	
+	
+	<div class="social-font clearfix">
+		
+		<a href="http://weibo.com/5589786100" target="_blank" title="weibo"></a>
+		
+		
+		
+		<a href="https://github.com/wenhai974" target="_blank" title="github"></a>
+		
+		
+		
+	</div>
+		<p class="copyright">Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/A-limon/pacman" target="_blank" title="Pacman">Pacman</a> © 2019 
+		
+		<a href="https://wenhai974.github.io" target="_blank" title="Koi">Koi</a>
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.1.0.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else
+    {
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      h  = $('article h2')
+      ah = $('article h2'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  if(ah.length==0){
+    t.css('display','none');
+  }else{
+    c.click(function(){
+      ta.css('display', 'block').addClass('fadeIn');
+    });
+    o.click(function(){
+      ta.css('display', 'none');
+    });
+    $(window).scroll(function(){
+      ta.css("top",Math.max(140,320-$(this).scrollTop()));
+    });
+  };
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina');
+  var html = [
+  '<a href="#" class="overlay" id="qrcode"></a>',
+  '<div class="qrcode clearfix"><span>扫描二维码分享到微信朋友圈</span><a class="qrclose" href="#share"></a><strong>Loading...Please wait</strong><img id="qrcode-pic" data-src="http://s.jiathis.com/qrcode.php?url=' + encodedUrl + '"/></div>',
+  '<a href="#textlogo" class="article-back-to-top" title="Top"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="QRcode"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="Weibo"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+  $('.article-share-qrcode').click(function(){
+    var imgSrc = $('#qrcode-pic').attr('data-src');
+    $('#qrcode-pic').attr('src', imgSrc);
+    $('#qrcode-pic').load(function(){
+        $('.qrcode strong').text(' ');
+    });
+  });
+});     
+</script>
+
+
+
+
+
+
+  </body>
+</html>

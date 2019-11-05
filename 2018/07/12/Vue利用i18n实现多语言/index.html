@@ -1,0 +1,401 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+  
+    <title>Vue利用i18n实现多语言 | A little koi</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=3, minimum-scale=1">
+    
+    <meta name="author" content="Koi">
+    
+    <meta name="description" content="在做项目的时候都遇到过多语言的需求，或者说已经实践过了，这篇文章主要讲的是通过 vue-i18n 来进行 Vue 项目的多语言配置，它的功能十分丰富，在我目前为止的项目开发中都是可以满足需求的使用的，文档地址 ，文档对于一些基础的使用方法都做了详细的介绍">
+    
+    
+    
+    
+    
+    <link rel="icon" href="/img/favicon-01.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/avatar.png">
+    <link rel="apple-touch-icon-precomposed" href="/img/avatar.png">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+</html>
+  <body>
+    <header>
+      <div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/avatar.png" alt="A little koi" title="A little koi"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="A little koi">A little koi</a></h1>
+				<h2 class="blog-motto">嘿！是充满激情的你啊</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					
+						<li><a href="/">首页</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+						<li><a href="/categories">分类</a></li>
+					
+					<li>
+					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="text" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:wenhai974.github.io">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2018/07/12/Vue利用i18n实现多语言/" title="Vue利用i18n实现多语言" itemprop="url">Vue利用i18n实现多语言</a>
+  </h1>
+  <p class="article-author">By
+    
+      <a href="https://wenhai974.github.io" title="Koi">Koi</a>
+    </p>
+  <p class="article-time">
+    <time datetime="2018-07-11T16:00:00.000Z" itemprop="datePublished">2018-07-12</time>
+    更新日期:<time datetime="2019-11-05T15:16:00.875Z" itemprop="dateModified">2019-11-05</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#安装"><span class="toc-number">1.</span> <span class="toc-text">安装</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#引入"><span class="toc-number">2.</span> <span class="toc-text">引入</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#使用"><span class="toc-number">3.</span> <span class="toc-text">使用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#辅助"><span class="toc-number">4.</span> <span class="toc-text">辅助</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#结语"><span class="toc-number">5.</span> <span class="toc-text">结语</span></a></li></ol>
+		</div>
+		
+		<p>在做项目的时候都遇到过多语言的需求，或者说已经实践过了，这篇文章主要讲的是通过 vue-i18n 来进行 Vue 项目的多语言配置，它的功能十分丰富，在我目前为止的项目开发中都是可以满足需求的使用的，<a href="https://kazupon.github.io/vue-i18n/zh/introduction.html" target="_blank" rel="noopener">文档地址</a> ，文档对于一些基础的使用方法都做了详细的介绍</p>
+<a id="more"></a>
+
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>通过 npm 安装 <code>npm install vue-i18n</code> ，更多安装方式请查看 <a href="https://kazupon.github.io/vue-i18n/zh/installation.html" target="_blank" rel="noopener">Vue I18n文档-安装</a></p>
+<h2 id="引入"><a href="#引入" class="headerlink" title="引入"></a>引入</h2><p><code>main.js</code> 代码</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> VueI18n <span class="keyword">from</span> <span class="string">'vue-i18n'</span></span><br><span class="line"><span class="keyword">import</span> LangZhCn <span class="keyword">from</span> <span class="string">'./assets/i18n/zh-cn'</span> <span class="comment">// 多语言配置文件-中文</span></span><br><span class="line"><span class="keyword">import</span> LangEnUs <span class="keyword">from</span> <span class="string">'./assets/i18n/en'</span> <span class="comment">// 多语言配置文件-英文</span></span><br><span class="line"></span><br><span class="line">Vue.use(VueI18n)</span><br><span class="line"><span class="keyword">const</span> i18n = <span class="keyword">new</span> VueI18n(&#123;</span><br><span class="line">  locale: tools.getLang(), <span class="comment">// 从缓存中读取语言配置，详情请看下一个代码块</span></span><br><span class="line">  messages: &#123;</span><br><span class="line">    <span class="string">'cn'</span>: LangZhCn,</span><br><span class="line">    <span class="string">'en'</span>: LangEnUs</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="keyword">new</span> Vue(&#123;</span><br><span class="line">  router,</span><br><span class="line">  store,</span><br><span class="line">  i18n,</span><br><span class="line">  render: <span class="function"><span class="params">h</span> =&gt;</span> h(App)</span><br><span class="line">&#125;).$mount(<span class="string">'#app'</span>)</span><br></pre></td></tr></table></figure>
+
+<p><code>tool.js</code> 代码</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span><br><span class="line">  <span class="comment">/**</span></span><br><span class="line"><span class="comment">   * @description: 在缓存中写入语言配置变量</span></span><br><span class="line"><span class="comment">   * @param &#123;String&#125; lang 语言代码，main.js 中初始化的</span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line">  setLang (lang) &#123;</span><br><span class="line">    <span class="keyword">var</span> storage = <span class="built_in">window</span>.localStorage</span><br><span class="line">    storage.setItem(<span class="string">'vue-lang'</span>, lang)</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="comment">/**</span></span><br><span class="line"><span class="comment">   * @description: 获取当前语言变量，若无就设置成中文并返回</span></span><br><span class="line"><span class="comment">   * @return: 语言变量</span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line">  getLang () &#123;</span><br><span class="line">    <span class="keyword">var</span> storage = <span class="built_in">window</span>.localStorage</span><br><span class="line">    <span class="keyword">var</span> lang = storage.getItem(<span class="string">'vue-lang'</span>)</span><br><span class="line">    <span class="keyword">if</span> (lang === <span class="literal">null</span> || lang === <span class="string">''</span>) &#123;</span><br><span class="line">      <span class="keyword">this</span>.setLang(<span class="string">'cn'</span>)</span><br><span class="line">      <span class="keyword">return</span> <span class="string">'cn'</span></span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      <span class="keyword">if</span> (lang === <span class="string">'"cn"'</span> || lang === <span class="string">'"en"'</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">JSON</span>.parse(lang)</span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> lang</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>多语言文件示例</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// zh-cn.js 中文配置文件</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span><br><span class="line">  <span class="string">'header'</span>: &#123;</span><br><span class="line">    <span class="string">'index'</span>: <span class="string">'首页'</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// en.js 英文配置文件</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span><br><span class="line">  <span class="string">'header'</span>: &#123;</span><br><span class="line">    <span class="string">'index'</span>: <span class="string">'Home'</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><p>使用起来很简单，</p>
+<ul>
+<li>在 js 中则使用 <code>this.$t(&#39;header.index&#39;)</code> </li>
+</ul>
+<p>当我们在组件的 props 的 default 中初始化值的时候，需要采取这种写法</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">props: &#123;</span><br><span class="line">    notice: &#123;</span><br><span class="line">        type: <span class="built_in">String</span>,</span><br><span class="line">        <span class="keyword">default</span> () &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">this</span>.$t(<span class="string">'tip'</span>)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>但是我们知道有些场景下我们会遇到这样的语句：<code>非常感谢nickName购买了我们的产品</code> ，显然这句话中有一个变量，而由于不同语言的语法不一样，我们并不能直接生硬的翻译变量前后的两句，这时候就要用上格式化了。我们只需要在我们的配置文件中写</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span><br><span class="line">    <span class="string">'tip'</span>: <span class="string">'非常感谢&#123;nickName&#125;购买了我们的产品'</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>使用的时候</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// template</span></span><br><span class="line">&lt;div&gt;&#123;&#123;$t(<span class="string">'tip'</span>, &#123; <span class="attr">nickName</span>: nick &#125;)&#125;&#125;&lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">/</span><span class="regexp">/ js</span></span><br><span class="line"><span class="regexp">this.$t('tip', &#123; nickName: this.nick &#125;)</span></span><br></pre></td></tr></table></figure>
+
+<p>避免了我们去拼接变量可能带来的麻烦</p>
+<h2 id="辅助"><a href="#辅助" class="headerlink" title="辅助"></a>辅助</h2><p>之前开发过一段时间的安卓，安卓中也有多语言相关的配置，基本都是采用类似的方式做的多语言，但是安卓开发的编辑器 Android Studio 却有一个很强大且实用的功能，你写在文件中的多语言它会自动帮你替换为文字，当你点击这个文字的时候才会显示源码，这样是非常有助于我们的开发的，因为多语言的配置命名过长会影响代码浏览，命名过短又无法见名知意，这样我们便不用太过纠结命名（当然尽量简短的做到见名知意还是很有必要的）。</p>
+<p>VS Code 作为一款受广大开发者欢迎的编辑器，自然已经有人开发出了类似的插件，经过对插件的调查研究（翻阅其GitHub文档，(｀・ω・´)），选择了这款插件 <a href="https://github.com/antfu/vue-i18n-ally/blob/master/README.zh-cn.md" target="_blank" rel="noopener">Vue i18n Ally</a> ，虽然没有 AS 那么到位，但基本上可以满足我的需求，下面贴一下预览效果</p>
+<p><img src="http://qny.lovem.fun/home/20190903/9lVJQdSuFWzo.png?imageslim" alt="mark"></p>
+<p>还支持跳转到定义处</p>
+<p><img src="http://qny.lovem.fun/home/20190903/iBlJWKM8X6Pn.png?imageslim" alt="mark"></p>
+<h2 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h2><p>好啦，这就是所有的介绍了，以上是工作的基础，如果想要学习更多更洋气的技能可以去它的文档仔细阅读</p>
+  
+	</div>
+	<div class="posts-footer-cont">
+    <img src="/img/wxZan.jpg" width="200" height="200" style="display:block;margin: 0 auto;">
+    <p style="text-align: center;margin-top: 10px;margin-bottom: 20px; color: #817c7c;">码字不易，本文若能帮到你，那我想要实现一个小小的愿望^_^</p>
+    <div class="author-right">
+  		<p>作者：Koi</p>
+  		<p>出处：<a href="https://wenhai974.github.io" target="_blank" title="Koi">https://wenhai974.github.io</a></p>
+  		<p>本文版权归作者所有，欢迎转载，但未经作者同意必须保留此段声明，且在文章页面明显位置给出原文连接，否则保留追究法律责任的权利。</p>
+    </div>
+	</div>
+			<footer class="article-footer clearfix">
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/多语言/">多语言</a>
+  </div>
+
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/VUE/">VUE</a>
+</div>
+
+
+
+<div class="article-share" id="share">
+
+  <div data-url="https://wenhai974.github.io/2018/07/12/Vue利用i18n实现多语言/" data-title="Vue利用i18n实现多语言 | A little koi" data-tsina="" class="share clearfix">
+  </div>
+
+</div>
+</footer>   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2018/10/09/用vue做微信公众号开发踩坑合集/" title="用vue做微信公众号开发踩坑合集">
+  <strong>PREVIOUS:</strong><br/>
+  <span>
+  用vue做微信公众号开发踩坑合集</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2018/07/08/CSS常用样式类总结/"  title="CSS常用样式类总结">
+ <strong>NEXT:</strong><br/> 
+ <span>CSS常用样式类总结
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#安装"><span class="toc-number">1.</span> <span class="toc-text">安装</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#引入"><span class="toc-number">2.</span> <span class="toc-text">引入</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#使用"><span class="toc-number">3.</span> <span class="toc-text">使用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#辅助"><span class="toc-number">4.</span> <span class="toc-text">辅助</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#结语"><span class="toc-number">5.</span> <span class="toc-text">结语</span></a></li></ol>
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+  <div class="archiveslist">
+    <p class="asidetitle"><a href="/archives">归档</a></p>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">九月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">八月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">七月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">五月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">三月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">十二月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">十一月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">十月 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">七月 2018</a><span class="archive-list-count">2</span></li></ul>
+  </div>
+
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+			<li><a href="/categories/CSS/" title="CSS">CSS<sup>1</sup></a></li>
+		
+			<li><a href="/categories/JS/" title="JS">JS<sup>8</sup></a></li>
+		
+			<li><a href="/categories/VUE/" title="VUE">VUE<sup>5</sup></a></li>
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			<li><a href="/tags/CSS/" title="CSS">CSS<sup>1</sup></a></li>
+		
+			<li><a href="/tags/ES6/" title="ES6">ES6<sup>1</sup></a></li>
+		
+			<li><a href="/tags/pdf-js/" title="pdf.js">pdf.js<sup>1</sup></a></li>
+		
+			<li><a href="/tags/vue-cli/" title="vue-cli">vue-cli<sup>1</sup></a></li>
+		
+			<li><a href="/tags/webpack/" title="webpack">webpack<sup>1</sup></a></li>
+		
+			<li><a href="/tags/多语言/" title="多语言">多语言<sup>1</sup></a></li>
+		
+			<li><a href="/tags/小程序/" title="小程序">小程序<sup>3</sup></a></li>
+		
+			<li><a href="/tags/工具函数/" title="工具函数">工具函数<sup>1</sup></a></li>
+		
+			<li><a href="/tags/微信公众号/" title="微信公众号">微信公众号<sup>3</sup></a></li>
+		
+			<li><a href="/tags/构造函数/" title="构造函数">构造函数<sup>1</sup></a></li>
+		
+			<li><a href="/tags/混合开发/" title="混合开发">混合开发<sup>1</sup></a></li>
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+      <li><a>weChat：wenhai974</a></li>
+      <li><a href="mailto:wenhai974@163.com">Email：wenhai974@163.com</a></li>
+      <li><a href="http://code-fe.lovem.fun/" target="_blank">前端资源共享</a></li>
+      <li><a href="https://github.com/wenhai974" target="_blank" title="https://github.com/wenhai974">https://github.com/wenhai974</a></li>
+    </ul>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	<div class="footer-slogan">勇士之魂，从未破灭！</div>
+	
+	
+	<div class="social-font clearfix">
+		
+		<a href="http://weibo.com/5589786100" target="_blank" title="weibo"></a>
+		
+		
+		
+		<a href="https://github.com/wenhai974" target="_blank" title="github"></a>
+		
+		
+		
+	</div>
+		<p class="copyright">Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/A-limon/pacman" target="_blank" title="Pacman">Pacman</a> © 2019 
+		
+		<a href="https://wenhai974.github.io" target="_blank" title="Koi">Koi</a>
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.1.0.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else
+    {
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      h  = $('article h2')
+      ah = $('article h2'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  if(ah.length==0){
+    t.css('display','none');
+  }else{
+    c.click(function(){
+      ta.css('display', 'block').addClass('fadeIn');
+    });
+    o.click(function(){
+      ta.css('display', 'none');
+    });
+    $(window).scroll(function(){
+      ta.css("top",Math.max(140,320-$(this).scrollTop()));
+    });
+  };
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina');
+  var html = [
+  '<a href="#" class="overlay" id="qrcode"></a>',
+  '<div class="qrcode clearfix"><span>扫描二维码分享到微信朋友圈</span><a class="qrclose" href="#share"></a><strong>Loading...Please wait</strong><img id="qrcode-pic" data-src="http://s.jiathis.com/qrcode.php?url=' + encodedUrl + '"/></div>',
+  '<a href="#textlogo" class="article-back-to-top" title="Top"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="QRcode"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="Weibo"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+  $('.article-share-qrcode').click(function(){
+    var imgSrc = $('#qrcode-pic').attr('data-src');
+    $('#qrcode-pic').attr('src', imgSrc);
+    $('#qrcode-pic').load(function(){
+        $('.qrcode strong').text(' ');
+    });
+  });
+});     
+</script>
+
+
+
+
+
+
+  </body>
+</html>

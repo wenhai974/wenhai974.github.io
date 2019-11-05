@@ -1,0 +1,457 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+  
+    <title>用vue做微信公众号开发踩坑合集 | A little koi</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=3, minimum-scale=1">
+    
+    <meta name="author" content="Koi">
+    
+    <meta name="description" content="小程序开发笔记自带组件  swiper  样式修改轮播图的点的样式相关类名如下所示，稍作修改便可实现一些设计上的简单的效果了
+wx-swiper-dots wx-swiper-dots-horizontal wx-swiper-dot wx-swiper-dot-active
+引入  iconfon">
+    
+    
+    
+    
+    
+    <link rel="icon" href="/img/favicon-01.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/avatar.png">
+    <link rel="apple-touch-icon-precomposed" href="/img/avatar.png">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+</html>
+  <body>
+    <header>
+      <div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/avatar.png" alt="A little koi" title="A little koi"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="A little koi">A little koi</a></h1>
+				<h2 class="blog-motto">嘿！是充满激情的你啊</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					
+						<li><a href="/">首页</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+						<li><a href="/categories">分类</a></li>
+					
+					<li>
+					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="text" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:wenhai974.github.io">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2019/05/09/小程序开发笔记/" title="用vue做微信公众号开发踩坑合集" itemprop="url">用vue做微信公众号开发踩坑合集</a>
+  </h1>
+  <p class="article-author">By
+    
+      <a href="https://wenhai974.github.io" title="Koi">Koi</a>
+    </p>
+  <p class="article-time">
+    <time datetime="2019-05-08T16:00:00.000Z" itemprop="datePublished">2019-05-09</time>
+    更新日期:<time datetime="2019-11-05T16:00:34.704Z" itemprop="dateModified">2019-11-06</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#小程序开发笔记"><span class="toc-number">1.</span> <span class="toc-text">小程序开发笔记</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#自带组件-swiper-样式修改"><span class="toc-number">1.1.</span> <span class="toc-text">自带组件  swiper  样式修改</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#引入-iconfont"><span class="toc-number">1.2.</span> <span class="toc-text">引入  iconfont</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#使用-less"><span class="toc-number">1.3.</span> <span class="toc-text">使用 less</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#VSCode-编辑器"><span class="toc-number">1.3.1.</span> <span class="toc-text">VSCode 编辑器</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#onLaunch-和-onLoad-异步加载"><span class="toc-number">1.4.</span> <span class="toc-text">onLaunch 和 onLoad 异步加载</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#语法"><span class="toc-number">1.5.</span> <span class="toc-text">语法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#调用组件的方法"><span class="toc-number">1.6.</span> <span class="toc-text">调用组件的方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#使用-npm-包"><span class="toc-number">1.7.</span> <span class="toc-text">使用 npm 包</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#e-target-和-e-currentTarget-的区别"><span class="toc-number">1.8.</span> <span class="toc-text">e.target 和 e.currentTarget 的区别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#要更新的"><span class="toc-number">1.9.</span> <span class="toc-text">要更新的</span></a></li></ol></li></ol>
+		</div>
+		
+		<h2 id="小程序开发笔记"><a href="#小程序开发笔记" class="headerlink" title="小程序开发笔记"></a>小程序开发笔记</h2><h3 id="自带组件-swiper-样式修改"><a href="#自带组件-swiper-样式修改" class="headerlink" title="自带组件  swiper  样式修改"></a>自带组件  swiper  样式修改</h3><p>轮播图的点的样式相关类名如下所示，稍作修改便可实现一些设计上的简单的效果了</p>
+<p><code>wx-swiper-dots</code> <code>wx-swiper-dots-horizontal</code> <code>wx-swiper-dot</code> <code>wx-swiper-dot-active</code></p>
+<h3 id="引入-iconfont"><a href="#引入-iconfont" class="headerlink" title="引入  iconfont"></a>引入  iconfont</h3><p>小程序的wxss文件font-face的url不接受http地址作为参数,可以接受base64,因此可以先将字体文件下载后,转换为base64，然后引用。<a href="https://transfonter.org/" target="_blank" rel="noopener">字体转换网站</a></p>
+<p><img src="http://qny.luchengwei.top/blog/20190313/aLw6DbbT3yAE.png?imageslim" alt="mark"></p>
+<p>此处的字体文件就是从 iconfont 下载到本地的文件中的 TTF 类型的文件</p>
+<p><img src="http://qny.luchengwei.top/blog/20190313/TTPlEQrFsyIk.png?imageslim" alt="mark"></p>
+<p>转换完成后会出现下载按钮</p>
+<p><img src="http://qny.luchengwei.top/blog/20190313/EYHXqHL61caV.png?imageslim" alt="mark"></p>
+<p>选择下载文件包中的 stylesheet.css 文件，重命名为 font.wxss ，在 iconfont.wxss 中删掉 <code>@font-face</code> ，添加 <code>@import &quot;font.wxss&quot;;</code> 即可</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* font.wxss */</span></span><br><span class="line">@<span class="keyword">font-face</span> &#123;</span><br><span class="line">    <span class="attribute">font-family</span>: <span class="string">'iconfont'</span>;</span><br><span class="line">     <span class="attribute">src</span>: <span class="built_in">url</span>(data:font/truetype;charset=utf-8;base64...) <span class="built_in">format</span>(<span class="string">'truetype'</span>);</span><br><span class="line">    <span class="attribute">font-weight</span>: normal;</span><br><span class="line">    <span class="attribute">font-style</span>: normal;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/* iconfont.wxss */</span></span><br><span class="line">@<span class="keyword">import</span> <span class="string">"font.wxss"</span>;</span><br><span class="line"><span class="selector-class">.iconfont</span> &#123;</span><br><span class="line">  <span class="attribute">font-family</span>: <span class="string">"iconfont"</span> <span class="meta">!important</span>;</span><br><span class="line">  <span class="attribute">font-size</span>: <span class="number">16px</span>;</span><br><span class="line">  <span class="attribute">font-style</span>: normal;</span><br><span class="line">  <span class="attribute">-webkit-font-smoothing</span>: antialiased;</span><br><span class="line">  <span class="attribute">-moz-osx-font-smoothing</span>: grayscale;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.icon-fenxiang</span><span class="selector-pseudo">:before</span> &#123;</span><br><span class="line">  <span class="attribute">content</span>: <span class="string">"\e67a"</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>使用</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">text</span> <span class="attr">class</span>=<span class="string">"iconfont icon-fenxiang"</span>&gt;</span><span class="tag">&lt;/<span class="name">text</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="使用-less"><a href="#使用-less" class="headerlink" title="使用 less"></a>使用 less</h3><h4 id="VSCode-编辑器"><a href="#VSCode-编辑器" class="headerlink" title="VSCode 编辑器"></a>VSCode 编辑器</h4><p>安装插件 <code>Easy Less</code> ，这个插件的作用是自动将你写的 less 编译成 css ，但是我们需要的是 wxss ，在项目目录下新增一个文件夹 .vscode ，新建文件 settings.json ，添加配置：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">"less.compile"</span>: &#123;</span><br><span class="line">        "compress": true, // 是否删除多余空白字符</span><br><span class="line">        "sourceMap": false, // 是否创建文件目录树，true的话会自动生成一个 .css.map 文件</span><br><span class="line">        "out": false, // 是否输出css文件，false为不输出</span><br><span class="line">        "outExt": ".wxss", // 输出文件的后缀,默认为.css</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="onLaunch-和-onLoad-异步加载"><a href="#onLaunch-和-onLoad-异步加载" class="headerlink" title="onLaunch 和 onLoad 异步加载"></a>onLaunch 和 onLoad 异步加载</h3><p>小程序的 <code>onLaunch</code> 和页面级的 <code>onLoad</code> 异步执行，这两个的执行顺序是不一定的，在 <code>onLaunch</code> 中请求还未返回的时候， <code>onLoad</code> 可能就执行了，需要加判断</p>
+<p>封装一个全局方法，便于其他页面使用，我们的业务逻辑是只有当用户执行到下单或分享等必须操作时才需要用户登录，用户登录需要先授权个人信息，如果用户授权过个人信息，下次进入的时候就直接登录，登录成功后会赋值 <code>getUserInfoFlag</code> 为 <code>true</code> 。</p>
+<p>先判断用户是否授权过我们的小程序。若未授权，执行简单操作。如果授权了，app.js 一定会调用登录，判断 <code>getUserInfoFlag</code> 为 true 的话，说明  app.js 的 <code>onLaunch</code> 先于页面级的 <code>onLoad</code> 执行，正常操作即可；若为 false ，说明 页面级的 <code>onLoad</code> 先于 app.js 的 <code>onLaunch</code> 先执行了，此时往 app 上挂载一个 check 函数，函数中执行想要执行的方法，而在 app.js 中则要在登录后判断是否存在 check 函数，进而执行相应的逻辑。具体的还是看代码吧：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// app.js</span></span><br><span class="line">wx.getSetting(&#123;</span><br><span class="line">    success: <span class="function"><span class="params">res</span> =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (res.authSetting[<span class="string">'scope.userInfo'</span>]) &#123;</span><br><span class="line">            <span class="comment">// 已经授权，可以直接调用 getUserInfo 获取头像昵称，不会弹框</span></span><br><span class="line">            that.globalData.hadAuthUserInfo = <span class="literal">true</span></span><br><span class="line">            wx.getUserInfo(&#123;</span><br><span class="line">                withCredentials: <span class="literal">true</span>,</span><br><span class="line">                success: <span class="function"><span class="params">userInfoRes</span> =&gt;</span> &#123;</span><br><span class="line">                    that.globalData.userInfo = &#123;...userInfoRes.userInfo&#125;</span><br><span class="line">                    that.globalData.getUserInfoFlag = <span class="literal">true</span></span><br><span class="line">                    <span class="keyword">if</span> (that.checkStatusCallback) &#123;</span><br><span class="line">                        that.checkStatusCallback()</span><br><span class="line">                    &#125;</span><br><span class="line">                    cloudApi.login(userInfoRes.userInfo) <span class="comment">// 调用登录</span></span><br><span class="line">                &#125;</span><br><span class="line">            &#125;)</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            that.globalData.hadAuthUserInfo = <span class="literal">false</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">// util.js</span></span><br><span class="line"><span class="keyword">const</span> app = getApp()</span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * params &#123; Function &#125; authCallback 已授权</span></span><br><span class="line"><span class="comment"> * params &#123; Function &#125; unAuthCb 未授权</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">const</span> checkStatus = <span class="function">(<span class="params">authCallback, unAuthCb = (</span>) =&gt;</span> &#123;&#125;) =&gt; &#123;</span><br><span class="line">  <span class="comment">// 判断是否有授权，有授权的话从回调调用方法初始化数据</span></span><br><span class="line">  <span class="comment">// 无授权的话直接调用方法初始化数据</span></span><br><span class="line">  wx.getSetting(&#123;</span><br><span class="line">    success: <span class="function"><span class="params">res</span> =&gt;</span> &#123;</span><br><span class="line">      <span class="keyword">if</span> (res.authSetting[<span class="string">'scope.userInfo'</span>]) &#123;</span><br><span class="line">        <span class="keyword">if</span> (app.globalData.getUserInfoFlag) &#123; <span class="comment">// onLaunch 先执行</span></span><br><span class="line">          authCallback()</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123; <span class="comment">// onLoad 先执行</span></span><br><span class="line">          app.checkStatusCallback = <span class="function"><span class="params">res</span> =&gt;</span> &#123;</span><br><span class="line">            authCallback()</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        unAuthCb()</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 使用（判断是否有管理员权限）</span></span><br><span class="line"><span class="keyword">import</span> &#123; checkStatus &#125; <span class="keyword">from</span> <span class="string">'../../utils/util'</span></span><br><span class="line"><span class="comment">// 某页面的 onload 函数</span></span><br><span class="line">onLoad: <span class="function"><span class="keyword">function</span> (<span class="params">options</span>) </span>&#123;</span><br><span class="line">    checkStatus(</span><br><span class="line">      () =&gt; &#123;</span><br><span class="line">        <span class="keyword">this</span>.setData(&#123;</span><br><span class="line">          hadAuthFlag: app.globalData.hadAuthUserInfo,</span><br><span class="line">          userInfo: app.globalData.userInfo</span><br><span class="line">        &#125;)</span><br><span class="line">        <span class="keyword">this</span>.getUserManagerAuth() <span class="comment">// 调用接口判断是否为管理员</span></span><br><span class="line">      &#125;,</span><br><span class="line">      () =&gt; &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">'NO_AUTH'</span>)</span><br><span class="line">      &#125;</span><br><span class="line">    )</span><br><span class="line">  &#125;,</span><br></pre></td></tr></table></figure>
+
+<h3 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h3><ol>
+<li>动态绑定 class 类名 <code>class="add {{flag ? 'sub' : ''}}"</code> ，直接在原有的类名后面写</li>
+<li>设置数组的值，在 <code>this.setData({})</code> 里面写 <code>[&#39;info.value&#39;]: &#39;1&#39;</code> 即可</li>
+</ol>
+<h3 id="调用组件的方法"><a href="#调用组件的方法" class="headerlink" title="调用组件的方法"></a>调用组件的方法</h3><p>在小程序中组件的使用是很方便的，但是有的时候我们想要强制调用组件的某个方法来刷新值或者进行其他的操作，而组件并未直接向外部暴露出方法来，该怎么办呢</p>
+<p>首先给要调用方法的组件的 <code>wxml</code> 元素上添加一个 <code>ID</code> ，然后在 <code>js</code> 中先定义一个变量，<code>onload</code> 的时候给变量赋值组件的实例，这样组件的实例就在当前 <code>page</code> 中都可以用了，调用组件中 <code>methods</code> 中的方法即可</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> iptNumberComponent</span><br><span class="line">iptNumberComponent = <span class="keyword">this</span>.selectComponent(<span class="string">'#ipt-quantity'</span>)</span><br><span class="line">iptNumberComponent.updated()</span><br></pre></td></tr></table></figure>
+
+<h3 id="使用-npm-包"><a href="#使用-npm-包" class="headerlink" title="使用 npm 包"></a>使用 npm 包</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm init -y <span class="comment">// 初始化项目</span></span><br><span class="line">npm install xxx <span class="comment">// 安装所需要的包</span></span><br></pre></td></tr></table></figure>
+
+<p>点击 工具 –&gt; 构建 npm ，若提示找不到 node_modules 目录，解决办法：</p>
+<ol>
+<li>在微信开发者工具中新建 node_modules 文件夹</li>
+<li>项目未初始化为支持 npm 的，执行 <code>npm init</code> </li>
+</ol>
+<h3 id="e-target-和-e-currentTarget-的区别"><a href="#e-target-和-e-currentTarget-的区别" class="headerlink" title="e.target 和 e.currentTarget 的区别"></a>e.target 和 e.currentTarget 的区别</h3><p>摘抄自部分 <a href="https://developers.weixin.qq.com/miniprogram/dev/framework/view/wxml/event.html?search-key=currentTarget%20" target="_blank" rel="noopener">官方文档</a> </p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>target</th>
+<th>currentTarget</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>定义</td>
+<td>触发事件的组件的一些属性值集合</td>
+<td>当前组件的一些属性值集合</td>
+</tr>
+<tr>
+<td>dataset</td>
+<td>事件源组件上由 <code>data-</code> 开头的自定义属性组成的集合</td>
+<td>当前组件上由 <code>data-</code> 开头的自定义属性组成的集合</td>
+</tr>
+</tbody></table>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">view</span> <span class="attr">id</span>=<span class="string">"outer"</span> <span class="attr">bindtap</span>=<span class="string">"handleTap1"</span>&gt;</span></span><br><span class="line">  outer</span><br><span class="line">   <span class="tag">&lt;<span class="name">view</span> <span class="attr">id</span>=<span class="string">"inner"</span> <span class="attr">bindtap</span>=<span class="string">"handleTap2"</span>&gt;</span></span><br><span class="line">      inner</span><br><span class="line">   <span class="tag">&lt;/<span class="name">view</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">view</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>点击 inner 的时候，两个方法都会执行，点击 outer 的时候，只会执行 handleTap1 </p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">handleTap1 (e) &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'触发 outer'</span>)</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'outer target -- '</span> + e.target.id)</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'outer currentTarget -- '</span> + e.currentTarget.id)</span><br><span class="line">&#125;,</span><br><span class="line">handleTap2 (e) &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'触发 inner'</span>)</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'inner target -- '</span> + e.target.id)</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'outer currentTarget -- '</span> + e.currentTarget.id)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 点击 inner</span></span><br><span class="line">触发 inner</span><br><span class="line">inner target -- son</span><br><span class="line">inner currentTarget -- son</span><br><span class="line">触发 outer</span><br><span class="line">outer target -- son</span><br><span class="line">outer currentTarget -- father</span><br><span class="line"></span><br><span class="line"><span class="comment">// 点击 outer</span></span><br><span class="line">触发 outer</span><br><span class="line">outer target -- father</span><br><span class="line">outer currentTarget -- father</span><br></pre></td></tr></table></figure>
+
+<p>总结： </p>
+<ol>
+<li>若点击的元素没有子元素，那么 target = currentTarget</li>
+<li>若点击的元素有子元素，点击父元素中非子元素区域时，target = currentTarget ；点击子元素区域时，target 为子元素，currentTarget 为父元素；</li>
+<li>建议使用 currentTarget ，就不用管那么多了<del>_</del></li>
+</ol>
+<h3 id="要更新的"><a href="#要更新的" class="headerlink" title="要更新的"></a>要更新的</h3><ol>
+<li>小程序中调用组件的方法</li>
+<li>小程序中使用 npm 包</li>
+<li>自定义组件 checker</li>
+<li>自定义组件生成图片 –</li>
+<li>wux 的坑：<ol>
+<li>loading 覆盖页面，点击无反应</li>
+</ol>
+</li>
+<li>popup改宽度</li>
+<li>target 和 currentTarget</li>
+<li>小程序客服及刚上线的客服小助手小程序</li>
+<li>阻止 open-type=”share” 的冒泡行为</li>
+<li>同一页面多种分享方式，转发小程序、生成图片和分享另一页面小程序</li>
+<li>小程序图片高度自适应后，解决白条</li>
+<li>1 px 边框 完整解决方案</li>
+<li>小米手机上字体加粗使用数字不好使，使用 blod 就好了</li>
+<li>保存图片 iPhone 上不显示微信自带的提示</li>
+</ol>
+  
+	</div>
+	<div class="posts-footer-cont">
+    <img src="/img/wxZan.jpg" width="200" height="200" style="display:block;margin: 0 auto;">
+    <p style="text-align: center;margin-top: 10px;margin-bottom: 20px; color: #817c7c;">码字不易，本文若能帮到你，那我想要实现一个小小的愿望^_^</p>
+    <div class="author-right">
+  		<p>作者：Koi</p>
+  		<p>出处：<a href="https://wenhai974.github.io" target="_blank" title="Koi">https://wenhai974.github.io</a></p>
+  		<p>本文版权归作者所有，欢迎转载，但未经作者同意必须保留此段声明，且在文章页面明显位置给出原文连接，否则保留追究法律责任的权利。</p>
+    </div>
+	</div>
+			<footer class="article-footer clearfix">
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/小程序/">小程序</a>
+  </div>
+
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/JS/">JS</a>
+</div>
+
+
+
+<div class="article-share" id="share">
+
+  <div data-url="https://wenhai974.github.io/2019/05/09/小程序开发笔记/" data-title="用vue做微信公众号开发踩坑合集 | A little koi" data-tsina="" class="share clearfix">
+  </div>
+
+</div>
+</footer>   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2019/07/08/JS常用工具类函数总结/" title="JS常用工具类函数总结">
+  <strong>PREVIOUS:</strong><br/>
+  <span>
+  JS常用工具类函数总结</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2019/05/08/vue-cli项目打包多个与static文件同级的静态资源目录（copy-webpack-plugin插件的使用）/"  title="vue-cli项目打包多个与static文件同级的静态资源目录（copy-webpack-plugin插件的使用）">
+ <strong>NEXT:</strong><br/> 
+ <span>vue-cli项目打包多个与static文件同级的静态资源目录（copy-webpack-plugin插件的使用）
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#小程序开发笔记"><span class="toc-number">1.</span> <span class="toc-text">小程序开发笔记</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#自带组件-swiper-样式修改"><span class="toc-number">1.1.</span> <span class="toc-text">自带组件  swiper  样式修改</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#引入-iconfont"><span class="toc-number">1.2.</span> <span class="toc-text">引入  iconfont</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#使用-less"><span class="toc-number">1.3.</span> <span class="toc-text">使用 less</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#VSCode-编辑器"><span class="toc-number">1.3.1.</span> <span class="toc-text">VSCode 编辑器</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#onLaunch-和-onLoad-异步加载"><span class="toc-number">1.4.</span> <span class="toc-text">onLaunch 和 onLoad 异步加载</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#语法"><span class="toc-number">1.5.</span> <span class="toc-text">语法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#调用组件的方法"><span class="toc-number">1.6.</span> <span class="toc-text">调用组件的方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#使用-npm-包"><span class="toc-number">1.7.</span> <span class="toc-text">使用 npm 包</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#e-target-和-e-currentTarget-的区别"><span class="toc-number">1.8.</span> <span class="toc-text">e.target 和 e.currentTarget 的区别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#要更新的"><span class="toc-number">1.9.</span> <span class="toc-text">要更新的</span></a></li></ol></li></ol>
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+  <div class="archiveslist">
+    <p class="asidetitle"><a href="/archives">归档</a></p>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">九月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">八月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">七月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">五月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">三月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">十二月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">十一月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">十月 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">七月 2018</a><span class="archive-list-count">2</span></li></ul>
+  </div>
+
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+			<li><a href="/categories/CSS/" title="CSS">CSS<sup>1</sup></a></li>
+		
+			<li><a href="/categories/JS/" title="JS">JS<sup>8</sup></a></li>
+		
+			<li><a href="/categories/VUE/" title="VUE">VUE<sup>5</sup></a></li>
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			<li><a href="/tags/CSS/" title="CSS">CSS<sup>1</sup></a></li>
+		
+			<li><a href="/tags/ES6/" title="ES6">ES6<sup>1</sup></a></li>
+		
+			<li><a href="/tags/pdf-js/" title="pdf.js">pdf.js<sup>1</sup></a></li>
+		
+			<li><a href="/tags/vue-cli/" title="vue-cli">vue-cli<sup>1</sup></a></li>
+		
+			<li><a href="/tags/webpack/" title="webpack">webpack<sup>1</sup></a></li>
+		
+			<li><a href="/tags/多语言/" title="多语言">多语言<sup>1</sup></a></li>
+		
+			<li><a href="/tags/小程序/" title="小程序">小程序<sup>3</sup></a></li>
+		
+			<li><a href="/tags/工具函数/" title="工具函数">工具函数<sup>1</sup></a></li>
+		
+			<li><a href="/tags/微信公众号/" title="微信公众号">微信公众号<sup>3</sup></a></li>
+		
+			<li><a href="/tags/构造函数/" title="构造函数">构造函数<sup>1</sup></a></li>
+		
+			<li><a href="/tags/混合开发/" title="混合开发">混合开发<sup>1</sup></a></li>
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+      <li><a>weChat：wenhai974</a></li>
+      <li><a href="mailto:wenhai974@163.com">Email：wenhai974@163.com</a></li>
+      <li><a href="http://code-fe.lovem.fun/" target="_blank">前端资源共享</a></li>
+      <li><a href="https://github.com/wenhai974" target="_blank" title="https://github.com/wenhai974">https://github.com/wenhai974</a></li>
+    </ul>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	<div class="footer-slogan">勇士之魂，从未破灭！</div>
+	
+	
+	<div class="social-font clearfix">
+		
+		<a href="http://weibo.com/5589786100" target="_blank" title="weibo"></a>
+		
+		
+		
+		<a href="https://github.com/wenhai974" target="_blank" title="github"></a>
+		
+		
+		
+	</div>
+		<p class="copyright">Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/A-limon/pacman" target="_blank" title="Pacman">Pacman</a> © 2019 
+		
+		<a href="https://wenhai974.github.io" target="_blank" title="Koi">Koi</a>
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.1.0.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else
+    {
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      h  = $('article h2')
+      ah = $('article h2'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  if(ah.length==0){
+    t.css('display','none');
+  }else{
+    c.click(function(){
+      ta.css('display', 'block').addClass('fadeIn');
+    });
+    o.click(function(){
+      ta.css('display', 'none');
+    });
+    $(window).scroll(function(){
+      ta.css("top",Math.max(140,320-$(this).scrollTop()));
+    });
+  };
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina');
+  var html = [
+  '<a href="#" class="overlay" id="qrcode"></a>',
+  '<div class="qrcode clearfix"><span>扫描二维码分享到微信朋友圈</span><a class="qrclose" href="#share"></a><strong>Loading...Please wait</strong><img id="qrcode-pic" data-src="http://s.jiathis.com/qrcode.php?url=' + encodedUrl + '"/></div>',
+  '<a href="#textlogo" class="article-back-to-top" title="Top"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="QRcode"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="Weibo"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+  $('.article-share-qrcode').click(function(){
+    var imgSrc = $('#qrcode-pic').attr('data-src');
+    $('#qrcode-pic').attr('src', imgSrc);
+    $('#qrcode-pic').load(function(){
+        $('.qrcode strong').text(' ');
+    });
+  });
+});     
+</script>
+
+
+
+
+
+
+  </body>
+</html>
